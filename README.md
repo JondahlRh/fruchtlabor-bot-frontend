@@ -16,7 +16,7 @@ npm install
 
 ```
 
-## required files
+## optional files
 
 ### docker-compose.dev.yml / docker-compose.yml
 

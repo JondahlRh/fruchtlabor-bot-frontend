@@ -9,7 +9,7 @@ COPY package*.json .
 RUN npm ci
 
 # development stage
-FROM node:20 as development-stage
+FROM dependency-stage as development-stage
 
 ENV NODE_ENV=development
 ENV WATCHPACK_POLLING=true
