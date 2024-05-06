@@ -1,0 +1,33 @@
+# dependency stage
+FROM node:20-alpine AS dependency-stage
+
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+
+COPY package*.json .
+RUN npm ci
+
+# development stage
+FROM node:20 as development-stage
+
+ENV NODE_ENV=development
+ENV WATCHPACK_POLLING=true
+
+WORKDIR /app
+
+COPY --from=dependency-stage /app/node_modules node_modules
+
+COPY package*.json .
+
+COPY next.config.mjs .
+COPY tsconfig.json .
+COPY tailwind.config.ts .
+COPY postcss.config.mjs .
+
+COPY public public
+COPY src src
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev", "--", "-p", "3000"]
