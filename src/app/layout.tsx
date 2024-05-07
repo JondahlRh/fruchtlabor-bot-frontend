@@ -2,6 +2,7 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import Navigation from "./comp/Navigation";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,7 +24,10 @@ export default ({ children }: Props) => {
 
   return (
     <html lang="en">
-      <body className={className}>{children}</body>
+      <body className={className}>
+        <Navigation />
+        {children}
+      </body>
     </html>
   );
 };
