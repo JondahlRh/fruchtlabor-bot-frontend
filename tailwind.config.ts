@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         primary: "#3BCBDB",
         secondary: "#FFC454",
+        tertiary: "#FF548E",
+        quadro: "#6C52E0",
       },
     },
   },

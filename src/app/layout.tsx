@@ -2,7 +2,7 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import Navigation from "./comp/Navigation";
+import Navigation from "./components/Navigation";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,7 +26,7 @@ export default ({ children }: Props) => {
     <html lang="en">
       <body className={className}>
         <Navigation />
-        {children}
+        <main className="mx-auto max-w-screen-xl p-4">{children}</main>
       </body>
     </html>
   );
