@@ -6,6 +6,6 @@ services:
     image: ${NAME}:latest
     container_name: ${NAME}
     restart: unless-stopped
-    environment:
+    # environment:
     ports:
       - "${EXPOSED_HOST}:${EXPOSED_PORT}:${INTERNAL_PORT}"
