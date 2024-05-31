@@ -1,6 +1,5 @@
 # dependency stage
 FROM node:20-alpine AS dependency-stage
-
 RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
@@ -8,8 +7,10 @@ WORKDIR /app
 COPY package*.json .
 RUN npm ci
 
+
 # build stage
-FROM dependency-stage AS build-stage
+FROM node:20-alpine AS build-stage
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
@@ -30,7 +31,8 @@ RUN npm run build
 
 
 # production stage
-FROM dependency-stage AS prod-stage
+FROM node:20-alpine AS prod-stage
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
@@ -45,7 +47,9 @@ COPY --from=build-stage --chown=nextjs:nodejs /app/.next/static .next/static
 
 USER nextjs
 
-ENV PORT=3000
-EXPOSE 3000
+ARG INTERNAL_PORT
+
+ENV PORT=${INTERNAL_PORT}
+EXPOSE ${INTERNAL_PORT}
 
 CMD ["node", "server.js"]

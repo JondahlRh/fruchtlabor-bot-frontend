@@ -1,6 +1,5 @@
 # dependency stage
 FROM node:20-alpine AS dependency-stage
-
 RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
@@ -8,8 +7,10 @@ WORKDIR /app
 COPY package*.json .
 RUN npm ci
 
+
 # development stage
-FROM dependency-stage as development-stage
+FROM node:20-alpine as development-stage
+RUN apk add --no-cache libc6-compat
 
 ENV NODE_ENV=development
 ENV WATCHPACK_POLLING=true
@@ -28,6 +29,10 @@ COPY postcss.config.mjs .
 COPY public public
 COPY src src
 
-EXPOSE 3000
+ARG INTERNAL_PORT
 
-CMD ["npm", "run", "dev", "--", "-p", "3000"]
+ENV INTERNAL_PORT=${INTERNAL_PORT}
+
+EXPOSE ${INTERNAL_PORT}
+
+CMD npm run dev -- -p ${INTERNAL_PORT}
