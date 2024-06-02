@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 
 export default function ApikeyForm() {
-  const localApikey = localStorage.getItem("apikey") ?? "";
+  let localApikey = "";
+
+  if (typeof localStorage !== "undefined") {
+    localApikey = localStorage.getItem("apikey") ?? "";
+  }
+
   const [apiKey, setApiKey] = useState(localApikey);
 
   useEffect(() => {
