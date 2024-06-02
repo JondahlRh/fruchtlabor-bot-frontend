@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { set } from "zod";
 
 import { Blackboardchannel, Link } from "../page";
 import LinkSection from "./LinkSection";
@@ -40,71 +41,111 @@ type BlackboardchannelState = {
 };
 
 type Props = {
-  data: BlackboardchannelState;
+  getData: () => Promise<BlackboardchannelState>;
   updateData: (data: Blackboardchannel) => Promise<void>;
 };
 
 export default function BlackboardchannelForm(props: Props) {
-  const [data, setData] = useState<BlackboardchannelState>(props.data);
+  console.log("BlackboardchannelForm");
+
+  const [data, setData] = useState<BlackboardchannelState | null>(null);
+
+  useEffect(() => {
+    props.getData().then(setData);
+  }, [props]);
 
   const titleChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setData((prev) => ({ ...prev, title: e.target.value }));
+    setData((prev) => {
+      if (!prev) return null;
+      return { ...prev, title: e.target.value };
+    });
   };
   const bodyChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setData((prev) => ({ ...prev, body: e.target.value }));
+    setData((prev) => {
+      if (!prev) return null;
+      return { ...prev, body: e.target.value };
+    });
   };
 
   const addNewsSection = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    setData((prev) => ({
-      ...prev,
-      news: addSection(prev.news),
-    }));
+    setData((prev) => {
+      if (!prev) return null;
+
+      return {
+        ...prev,
+        news: addSection(prev.news),
+      };
+    });
   };
   const updateNewsSection = useCallback(
     (id: number, newSection: SectionWithID) => {
-      setData((prev) => ({
-        ...prev,
-        news: updateSection(prev.news, newSection, id),
-      }));
+      setData((prev) => {
+        if (!prev) return null;
+
+        return {
+          ...prev,
+          news: updateSection(prev.news, newSection, id),
+        };
+      });
     },
     []
   );
   const removeNewsSection = (id: number) => {
-    setData((prev) => ({
-      ...prev,
-      news: removeSection(prev.news, id),
-    }));
+    setData((prev) => {
+      if (!prev) return null;
+
+      return {
+        ...prev,
+        news: removeSection(prev.news, id),
+      };
+    });
   };
 
   const addGeneralsSection = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    setData((prev) => ({
-      ...prev,
-      generals: addSection(prev.generals),
-    }));
+    setData((prev) => {
+      if (!prev) return null;
+
+      return {
+        ...prev,
+        generals: addSection(prev.generals),
+      };
+    });
   };
   const updateGeneralsSection = useCallback(
     (id: number, newSection: SectionWithID) => {
-      setData((prev) => ({
-        ...prev,
-        generals: updateSection(prev.generals, newSection, id),
-      }));
+      setData((prev) => {
+        if (!prev) return null;
+
+        return {
+          ...prev,
+          generals: updateSection(prev.generals, newSection, id),
+        };
+      });
     },
     []
   );
   const removeGeneralsSection = (id: number) => {
-    setData((prev) => ({
-      ...prev,
-      generals: removeSection(prev.generals, id),
-    }));
+    setData((prev) => {
+      if (!prev) return null;
+
+      return {
+        ...prev,
+        generals: removeSection(prev.generals, id),
+      };
+    });
   };
 
-  const cancelHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  if (!data) return <div>Loading...</div>;
+
+  const cancelHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setData(props.data);
+
+    const data = await props.getData();
+    setData(data);
   };
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -122,7 +163,8 @@ export default function BlackboardchannelForm(props: Props) {
       })),
     });
 
-    console.log(data);
+    const newData = await props.getData();
+    setData(newData);
   };
 
   return (

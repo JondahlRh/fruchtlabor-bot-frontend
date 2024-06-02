@@ -35,32 +35,37 @@ const updateData = async (data: Blackboardchannel) => {
   await db.collection("blackboardchannels").updateOne({}, { $set: data });
 };
 
+const mapData = (data: Blackboardchannel) => {
+  return {
+    title: data.title,
+    body: data.body,
+    news: data.news.map((section, index) => ({
+      id: Date.now() + index,
+      title: section.title,
+      link: section.link,
+    })),
+    generals: data.generals.map((section, index) => ({
+      id: Date.now() + index,
+      title: section.title,
+      link: section.link,
+    })),
+  };
+};
+
 export default async function Page() {
-  const mongodbData = await getData();
-  if (!mongodbData.success) throw mongodbData.error;
+  const refetchData = async () => {
+    "use server";
 
-  const { title, body, news, generals } = mongodbData.data;
-
-  const mappedData = {
-    title: title,
-    body: body,
-    news: news.map((section, index) => ({
-      id: Date.now() + index,
-      title: section.title,
-      link: section.link,
-    })),
-    generals: generals.map((section, index) => ({
-      id: Date.now() + index,
-      title: section.title,
-      link: section.link,
-    })),
+    const newData = await getData();
+    if (!newData.success) throw newData.error;
+    return mapData(newData.data);
   };
 
   return (
     <div>
       <h1 className="mb-4 text-4xl font-bold">Schwarze Brett</h1>
 
-      <BlackboardchannelForm data={mappedData} updateData={updateData} />
+      <BlackboardchannelForm getData={refetchData} updateData={updateData} />
     </div>
   );
 }
