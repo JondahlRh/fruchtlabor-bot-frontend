@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { SectionWithID } from "./BlackboardchannelForm";
+import type { SectionWithID } from "./Form";
 import Textarea from "./Textarea";
 
 type LinkSectionProps = {
