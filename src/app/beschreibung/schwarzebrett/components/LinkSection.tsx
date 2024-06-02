@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
+import Textarea from "../../components/Textarea";
 import type { SectionWithID } from "./Form";
-import Textarea from "./Textarea";
 
 type LinkSectionProps = {
   removeSection: (index: number) => void;
@@ -45,7 +45,7 @@ export default function LinkSection(props: LinkSectionProps) {
         <div className="grid grid-cols-10 gap-2">
           <div className="col-span-3">
             <Textarea
-              placeholder="Titel"
+              placeholder="Label"
               rows={1}
               value={inpLabel}
               onChange={(e) => setInpLabel(e.target.value)}
@@ -53,7 +53,7 @@ export default function LinkSection(props: LinkSectionProps) {
           </div>
           <div className="col-span-7">
             <Textarea
-              placeholder="Titel"
+              placeholder="URL"
               rows={1}
               value={inpUrl}
               onChange={(e) => setInpUrl(e.target.value)}

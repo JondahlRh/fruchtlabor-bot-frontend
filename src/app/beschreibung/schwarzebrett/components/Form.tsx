@@ -1,13 +1,10 @@
 "use client";
 
-import type {
-  Blackboardchannel,
-  Link,
-} from "@/services/mongoDbService/blackboardchannels";
+import type { Blackboardchannel, Link } from "@/schemas/mongodb";
 import { useCallback, useState } from "react";
 
+import Textarea from "../../components/Textarea";
 import SectionArea from "./SectionArea";
-import Textarea from "./Textarea";
 
 export type SectionWithID = {
   id: number;

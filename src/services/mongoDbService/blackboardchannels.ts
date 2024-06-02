@@ -1,26 +1,10 @@
-import { z } from "zod";
+import {
+  Blackboardchannel,
+  BlackboardchannelZodSchema,
+  Section,
+} from "@/schemas/mongodb";
 
 import init from ".";
-
-const LinkZodSchema = z.object({
-  label: z.string(),
-  url: z.string(),
-});
-export type Link = z.infer<typeof LinkZodSchema>;
-
-const SectionZodSchema = z.object({
-  title: z.string(),
-  link: LinkZodSchema,
-});
-type Section = z.infer<typeof SectionZodSchema>;
-
-const BlackboardchannelZodSchema = z.object({
-  title: z.string(),
-  body: z.string(),
-  news: z.array(SectionZodSchema),
-  generals: z.array(SectionZodSchema),
-});
-export type Blackboardchannel = z.infer<typeof BlackboardchannelZodSchema>;
 
 const addIdField = (sections: Section[]) => {
   return sections.map((section, index) => ({
