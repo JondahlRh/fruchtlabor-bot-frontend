@@ -12,6 +12,9 @@ env:
   EXPOSED_PORT: ${{ vars.PROD_EXPOSED_PORT }}
   INTERNAL_PORT: ${{ vars.PROD_INTERNAL_PORT }}
 
+  MONGODB_CONNECT: ${{ secrets.PROD_MONGODB_CONNECT }}
+  MONGODB_DBNAME: ${{ vars.PROD_MONGODB_DBNAME }}
+
 jobs:
   deployment:
     runs-on: ubuntu-latest

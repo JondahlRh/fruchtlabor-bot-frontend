@@ -6,6 +6,8 @@ services:
     image: ${NAME}:latest
     container_name: ${NAME}
     restart: unless-stopped
-    # environment:
+    environment:
+      - MONGODB_CONNECT=${MONGODB_CONNECT}
+      - MONGODB_DBNAME=${MONGODB_DBNAME}
     ports:
       - "${EXPOSED_HOST}:${EXPOSED_PORT}:${INTERNAL_PORT}"

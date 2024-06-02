@@ -12,6 +12,9 @@ env:
   EXPOSED_PORT: ${{ vars.STAGE_EXPOSED_PORT }}
   INTERNAL_PORT: ${{ vars.STAGE_INTERNAL_PORT }}
 
+  MONGODB_CONNECT: ${{ secrets.STAGE_MONGODB_CONNECT }}
+  MONGODB_DBNAME: ${{ vars.STAGE_MONGODB_DBNAME }}
+
 jobs:
   deployment:
     runs-on: ubuntu-latest
