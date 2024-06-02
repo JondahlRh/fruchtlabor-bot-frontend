@@ -3,8 +3,10 @@ services:
     build:
       context: ..
       dockerfile: Dockerfile
-    image: ${NAME}:latest
-    container_name: ${NAME}
+      args:
+        - INTERNAL_PORT=${INTERNAL_PORT}
+    image: ${NAME}-${ENVIRONMENT}:latest
+    container_name: ${NAME}-${ENVIRONMENT}
     restart: unless-stopped
     environment:
       - MONGODB_CONNECT=${MONGODB_CONNECT}
