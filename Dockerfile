@@ -16,6 +16,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+ARG MONGODB_CONNECT
+ARG MONGODB_DBNAME
+
 COPY --from=dependency-stage /app/node_modules node_modules
 
 COPY package*.json .
