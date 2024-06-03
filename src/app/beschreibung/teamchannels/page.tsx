@@ -1,17 +1,33 @@
-export default function Page() {
+import {
+  findTeamChannels,
+  mapTeamChannel,
+  updateOneTeamChannel,
+} from "@/services/mongoDbService/teamchannels";
+
+import FormList from "./components/FormList";
+
+export default async function Page() {
+  const getData = async () => {
+    "use server";
+
+    const newData = await findTeamChannels();
+    if (!newData) throw "Unknown error";
+    if (!newData.success) throw newData.error;
+
+    return newData.data.map(mapTeamChannel);
+  };
+
+  const data = await getData();
+
   return (
-    <div className="">
-      <h1 className="text-4xl font-bold">Team Channels</h1>
-      <p className="text-lg">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque
-        maxime fugiat dicta quia modi nisi sint laboriosam accusamus, autem
-        praesentium corporis voluptatem consequatur perferendis voluptatibus a
-        mollitia cupiditate beatae, libero obcaecati commodi vel distinctio
-        ducimus asperiores. Velit placeat reprehenderit expedita doloremque
-        ullam consectetur error nobis officiis provident modi. Exercitationem
-        quo sit odit neque! Reiciendis accusantium obcaecati nesciunt a et velit
-        voluptatibus, esse officia perspiciatis?
-      </p>
+    <div>
+      <h1 className="mb-4 text-4xl font-bold">Team Channels</h1>
+
+      <FormList
+        data={data}
+        getData={getData}
+        updateData={updateOneTeamChannel}
+      />
     </div>
   );
 }

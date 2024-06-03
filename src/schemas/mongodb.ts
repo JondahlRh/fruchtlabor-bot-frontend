@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { z } from "zod";
 
 const LinkZodSchema = z.object({
@@ -24,7 +25,6 @@ const MultiSectionZodSchema = z.object({
   title: z.string(),
   links: z.array(LinkZodSchema),
 });
-type MultiSection = z.infer<typeof MultiSectionZodSchema>;
 
 export const OrganizationchannelZodSchema = z.object({
   title: z.string(),
@@ -34,3 +34,15 @@ export const OrganizationchannelZodSchema = z.object({
   categories: z.array(MultiSectionZodSchema),
 });
 export type Organizationchannel = z.infer<typeof OrganizationchannelZodSchema>;
+
+export const TeamchannelZodSchema = z.object({
+  _id: z.instanceof(ObjectId),
+  name: z.string(),
+  type: z.string(),
+  links: z.array(LinkZodSchema),
+  players: z.array(z.string()),
+  standins: z.array(z.string()),
+  trainingTimes: z.array(z.string()),
+  extraBody: z.string(),
+});
+export type Teamchannel = z.infer<typeof TeamchannelZodSchema>;
