@@ -1,6 +1,7 @@
 "use client";
 
 import type { Blackboardchannel, Link } from "@/schemas/mongodb";
+import { execBlackboardchannel } from "@/services/teamspeakApiService/execDescriptionChanger";
 import { useCallback, useState } from "react";
 
 import Textarea from "../../components/Textarea";
@@ -113,6 +114,11 @@ export default function Form(props: Props) {
     const newData = await props.getData();
     setBlackboardchannel(newData);
   };
+  const execHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    await execBlackboardchannel(localStorage.getItem("apikey") ?? "");
+  };
 
   return (
     <form
@@ -166,6 +172,12 @@ export default function Form(props: Props) {
         </button>
         <button className="min-w-48 rounded-lg bg-primary py-1 font-bold text-neutral-900 hover:bg-opacity-75">
           Speichern
+        </button>
+        <button
+          className="min-w-48 rounded-lg bg-quadro py-1 font-bold text-neutral-900 hover:bg-opacity-75"
+          onClick={execHandler}
+        >
+          Teamspeak anpasen
         </button>
       </div>
     </form>

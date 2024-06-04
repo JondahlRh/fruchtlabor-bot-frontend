@@ -1,5 +1,6 @@
 "use client";
 
+import { execTeamchannel } from "@/services/teamspeakApiService/execDescriptionChanger";
 import { useState } from "react";
 
 import Form from "./Form";
@@ -41,6 +42,11 @@ export default function FormList(props: Props) {
     const data = await props.getData();
     setTeamchannels(data);
   };
+  const execHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    await execTeamchannel(localStorage.getItem("apikey") ?? "");
+  };
 
   return (
     <div className="flex flex-col gap-4 rounded-lg bg-neutral-700 p-4">
@@ -59,6 +65,12 @@ export default function FormList(props: Props) {
           onClick={resetData}
         >
           Zurücksetzen
+        </button>
+        <button
+          className="min-w-48 rounded-lg bg-quadro py-1 font-bold text-neutral-900 hover:bg-opacity-75"
+          onClick={execHandler}
+        >
+          Teamspeak anpasen
         </button>
       </div>
     </div>
