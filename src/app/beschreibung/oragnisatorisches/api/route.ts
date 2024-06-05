@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function PUT(req: Request) {
   try {
-    const apikey = req.headers.get("Authorization");
+    const { apikey } = await req.json();
     if (!apikey) throw "No apikey provided";
 
     console.log(apikey);
@@ -11,7 +11,7 @@ export async function PUT(req: Request) {
       {},
       {
         baseURL: process.env.TEAMSPEAK_API_URL,
-        headers: { Authorization: apikey },
+        headers: { Authorization: `Bearer ${apikey}` },
       }
     );
 

@@ -237,14 +237,7 @@ export default function Form(props: Props) {
 
     const apikey = localStorage.getItem("apikey") ?? "";
 
-    axios.put(
-      "oragnisatorisches/api",
-      {},
-      {
-        headers: { Authorization: `Bearer ${apikey}` },
-        withCredentials: true,
-      }
-    );
+    await axios.put("oragnisatorisches/api", { apikey });
   };
 
   return (
