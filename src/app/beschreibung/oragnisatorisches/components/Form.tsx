@@ -1,8 +1,6 @@
 "use client";
 
 import { Organizationchannel } from "@/schemas/mongodb";
-import { execOrganizationchannel } from "@/services/teamspeakApiService/execDescriptionChanger";
-import axios from "axios";
 import { useCallback, useState } from "react";
 
 import Textarea from "../../components/Textarea";
@@ -236,7 +234,15 @@ export default function Form(props: Props) {
   const execHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    await execOrganizationchannel(localStorage.getItem("apikey") ?? "");
+    const apikey = localStorage.getItem("apikey") ?? "";
+
+    await fetch("api/organizationchannel", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${apikey}`,
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (

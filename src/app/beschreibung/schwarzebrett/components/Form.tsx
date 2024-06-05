@@ -1,7 +1,6 @@
 "use client";
 
 import type { Blackboardchannel, Link } from "@/schemas/mongodb";
-import { execBlackboardchannel } from "@/services/teamspeakApiService/execDescriptionChanger";
 import { useCallback, useState } from "react";
 
 import Textarea from "../../components/Textarea";
@@ -117,7 +116,15 @@ export default function Form(props: Props) {
   const execHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    await execBlackboardchannel(localStorage.getItem("apikey") ?? "");
+    const apikey = localStorage.getItem("apikey") ?? "";
+
+    await fetch("api/blackboardchannel", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${apikey}`,
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (

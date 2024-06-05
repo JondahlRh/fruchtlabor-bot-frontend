@@ -1,6 +1,5 @@
 "use client";
 
-import { execTeamchannel } from "@/services/teamspeakApiService/execDescriptionChanger";
 import { useState } from "react";
 
 import Form from "./Form";
@@ -45,7 +44,15 @@ export default function FormList(props: Props) {
   const execHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    await execTeamchannel(localStorage.getItem("apikey") ?? "");
+    const apikey = localStorage.getItem("apikey") ?? "";
+
+    await fetch("api/teamchannel", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${apikey}`,
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
