@@ -1,6 +1,7 @@
 "use client";
 
 import { Organizationchannel } from "@/schemas/mongodb";
+import axios from "axios";
 import { useCallback, useState } from "react";
 
 import Textarea from "../../components/Textarea";
@@ -236,14 +237,14 @@ export default function Form(props: Props) {
 
     const apikey = localStorage.getItem("apikey") ?? "";
 
-    await fetch("oragnisatorisches/api", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${apikey}`,
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-    });
+    axios.put(
+      "oragnisatorisches/api",
+      {},
+      {
+        headers: { Authorization: `Bearer ${apikey}` },
+        withCredentials: true,
+      }
+    );
   };
 
   return (
