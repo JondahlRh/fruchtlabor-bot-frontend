@@ -241,6 +241,7 @@ export default function Form(props: Props) {
       headers: {
         Authorization: `Bearer ${apikey}`,
         "Content-Type": "application/json",
+        credentials: "include",
       },
     });
   };
