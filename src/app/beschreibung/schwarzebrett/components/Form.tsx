@@ -1,6 +1,7 @@
 "use client";
 
 import type { Blackboardchannel, Link } from "@/schemas/mongodb";
+import axios from "axios";
 import { useCallback, useState } from "react";
 
 import Textarea from "../../components/Textarea";
@@ -117,15 +118,7 @@ export default function Form(props: Props) {
     e.preventDefault();
 
     const apikey = localStorage.getItem("apikey") ?? "";
-
-    await fetch("blackboardchannel/api", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${apikey}`,
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-    });
+    await axios.put("blackboardchannel/api", { apikey });
   };
 
   return (

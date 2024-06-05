@@ -1,18 +1,12 @@
-import axios from "axios";
+import teamspeakApiService from "@/services/teamspeakApiService";
 
 export async function PUT(req: Request) {
   try {
-    const apikey = req.headers.get("Authorization");
+    const { apikey } = await req.json();
     if (!apikey) throw "No apikey provided";
 
-    await axios.post(
-      "/bot/blackboardchannel",
-      {},
-      {
-        baseURL: process.env.TEAMSPEAK_API_URL,
-        headers: { Authorization: `Bearer ${apikey}` },
-      }
-    );
+    teamspeakApiService.defaults.headers["Authorization"] = `Bearer ${apikey}`;
+    await teamspeakApiService.post("/bot/blackboardchannel");
 
     return new Response(JSON.stringify({ success: true }));
   } catch (error) {

@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
 
 import Form from "./Form";
@@ -45,15 +46,7 @@ export default function FormList(props: Props) {
     e.preventDefault();
 
     const apikey = localStorage.getItem("apikey") ?? "";
-
-    await fetch("teamchannel/api", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${apikey}`,
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-    });
+    await axios.put("teamchannel/api", { apikey });
   };
 
   return (

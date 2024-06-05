@@ -236,7 +236,6 @@ export default function Form(props: Props) {
     e.preventDefault();
 
     const apikey = localStorage.getItem("apikey") ?? "";
-
     await axios.put("oragnisatorisches/api", { apikey });
   };
 
