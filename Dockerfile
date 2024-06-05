@@ -18,6 +18,7 @@ ENV NODE_ENV=production
 
 ARG MONGODB_CONNECT
 ARG MONGODB_DBNAME
+ARG NEXT_PUBLIC_TEAMSPEAK_API_URL
 
 COPY --from=dependency-stage /app/node_modules node_modules
 
