@@ -46,7 +46,7 @@ export default function FormList(props: Props) {
     e.preventDefault();
 
     const apikey = localStorage.getItem("apikey") ?? "";
-    await axios.put("teamchannel/api", { apikey });
+    await axios.put("teamchannels/api", { apikey });
   };
 
   return (

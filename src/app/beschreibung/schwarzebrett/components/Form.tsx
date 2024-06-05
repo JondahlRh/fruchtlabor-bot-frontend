@@ -118,7 +118,7 @@ export default function Form(props: Props) {
     e.preventDefault();
 
     const apikey = localStorage.getItem("apikey") ?? "";
-    await axios.put("blackboardchannel/api", { apikey });
+    await axios.put("schwarzebrett/api", { apikey });
   };
 
   return (
