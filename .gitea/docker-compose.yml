@@ -8,8 +8,8 @@ services:
         - MONGODB_CONNECT=${MONGODB_CONNECT}
         - MONGODB_DBNAME=${MONGODB_DBNAME}
         - NEXT_PUBLIC_TEAMSPEAK_API_URL=${NEXT_PUBLIC_TEAMSPEAK_API_URL}
-    image: ${NAME}-${ENVIRONMENT}:latest
-    container_name: ${NAME}-${ENVIRONMENT}
+    image: ${NAME}:latest
+    container_name: ${NAME}
     restart: unless-stopped
     environment:
       - MONGODB_CONNECT=${MONGODB_CONNECT}
@@ -17,9 +17,3 @@ services:
       - NEXT_PUBLIC_TEAMSPEAK_API_URL=${NEXT_PUBLIC_TEAMSPEAK_API_URL}
     ports:
       - "${EXPOSED_HOST}:${EXPOSED_PORT}:${INTERNAL_PORT}"
-    networks:
-      - ${NAME}-${ENVIRONMENT}
-
-networks:
-  ${NAME}-${ENVIRONMENT}:
-    driver: bridge

@@ -6,8 +6,7 @@ on:
       - dev
 
 env:
-  NAME: fruchtlabor-ts-bot
-  ENVIRONMENT: frontend-dev
+  NAME: fruchtlabor-ts-bot-frontend-dev
 
   EXPOSED_HOST: ${{ vars.DEV_EXPOSED_HOST }}
   EXPOSED_PORT: ${{ vars.DEV_EXPOSED_PORT }}
