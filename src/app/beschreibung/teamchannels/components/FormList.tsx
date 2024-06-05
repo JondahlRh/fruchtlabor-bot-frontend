@@ -46,7 +46,7 @@ export default function FormList(props: Props) {
 
     const apikey = localStorage.getItem("apikey") ?? "";
 
-    await fetch("api/teamchannel", {
+    await fetch("teamchannel/api", {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${apikey}`,
