@@ -1,4 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { useAuth } from "../hooks/useAuth";
 
 type Props = {
   href: string;
@@ -16,16 +21,20 @@ function LinkItem(props: Props) {
 }
 
 export default function Navigation() {
+  const router = useRouter();
+  const { user, loading } = useAuth();
+
   return (
     <nav className="bg-neutral-600">
       <ul className="flex justify-center">
         <LinkItem href="/" title="Home" />
-        <LinkItem
-          href="/beschreibung/oragnisatorisches"
-          title="Oragnisatorisches"
-        />
-        <LinkItem href="/beschreibung/schwarzebrett" title="Schwarze Brett" />
-        <LinkItem href="/beschreibung/teamchannels" title="Team Channels" />
+
+        {!loading && user && (
+          <LinkItem href="/beschreibungen" title="Beschreibungen" />
+        )}
+        {!loading && user && (
+          <LinkItem href="/beschreibungen" title="Beschreibungen" />
+        )}
       </ul>
     </nav>
   );
