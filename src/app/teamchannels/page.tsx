@@ -1,12 +1,14 @@
-import { useRouter } from "next/navigation";
+"use client";
 
-import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
+
+import AuthContext from "../context/auth";
 
 export default function Page() {
   const router = useRouter();
-  const { user, loading } = useAuth();
+  const { user } = useContext(AuthContext);
 
-  if (loading) return <div>Loading...</div>;
   if (!user) return router.replace("/");
 
   return (

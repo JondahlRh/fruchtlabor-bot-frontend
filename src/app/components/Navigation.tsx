@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
-import { useAuth } from "../hooks/useAuth";
+import AuthContext from "../context/auth";
 
 type Props = {
   href: string;
@@ -21,8 +21,7 @@ function LinkItem(props: Props) {
 }
 
 export default function Navigation() {
-  const router = useRouter();
-  const { user, loading } = useAuth();
+  const { loading, user } = useContext(AuthContext);
 
   return (
     <nav className="bg-neutral-600">
@@ -33,7 +32,7 @@ export default function Navigation() {
           <LinkItem href="/beschreibungen" title="Beschreibungen" />
         )}
         {!loading && user && (
-          <LinkItem href="/beschreibungen" title="Beschreibungen" />
+          <LinkItem href="/teamchannels" title="Team Channels" />
         )}
       </ul>
     </nav>

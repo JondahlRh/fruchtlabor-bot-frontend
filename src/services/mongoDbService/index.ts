@@ -1,3 +1,5 @@
+"use server";
+
 import { MongoClient } from "mongodb";
 
 const init = async () => {

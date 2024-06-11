@@ -1,13 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 import LoginForm from "./components/LoginForm";
-import { useAuth } from "./hooks/useAuth";
+import AuthContext from "./context/auth";
 
 export default function App() {
-  const router = useRouter();
-  const { user, loading } = useAuth();
+  const { user, loading } = useContext(AuthContext);
 
   if (loading) return <div>Loading...</div>;
 

@@ -1,32 +1,14 @@
+"use server";
+
+import {
+  UnpopulatedUser,
+  UnpopulatedUserZodSchema,
+  UserLoginZodSchema,
+  UserZodSchema,
+} from "@/schemas/mongodb/user";
 import { Db, ObjectId } from "mongodb";
-import { z } from "zod";
 
 import init from ".";
-
-const PermissionZodSchema = z.object({
-  name: z.string(),
-});
-const RoleZodSchema = z.object({
-  name: z.string(),
-  permissions: z.array(PermissionZodSchema),
-});
-export const UserZodSchema = z.object({
-  username: z.string(),
-  apikey: z.string(),
-  isOwner: z.boolean(),
-  permissions: z.array(PermissionZodSchema),
-  roles: z.array(RoleZodSchema),
-});
-export type User = z.infer<typeof UserZodSchema>;
-
-const UnpopulatedUserZodSchema = z.object({
-  username: z.string(),
-  apikey: z.string(),
-  isOwner: z.boolean(),
-  roles: z.array(z.instanceof(ObjectId)),
-  permissions: z.array(z.instanceof(ObjectId)),
-});
-type UnpopulatedUser = z.infer<typeof UnpopulatedUserZodSchema>;
 
 const populatePermissionsAndRoles = async (db: Db, user: UnpopulatedUser) => {
   const roles = await db
@@ -51,8 +33,6 @@ const populatePermissionsAndRoles = async (db: Db, user: UnpopulatedUser) => {
 };
 
 export const findOneUserById = async (userid: string) => {
-  "use server";
-
   try {
     const db = await init();
 
@@ -82,8 +62,6 @@ export const findOneUserById = async (userid: string) => {
 };
 
 export const findOneUserByUsername = async (username: string) => {
-  "use server";
-
   try {
     const db = await init();
 
@@ -105,6 +83,22 @@ export const findOneUserByUsername = async (username: string) => {
     if (!parsedUser.success) throw new Error("Invalid user");
 
     return parsedUser.data;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const findOneLoginUserByUsername = async (username: string) => {
+  try {
+    const db = await init();
+
+    const user = await db.collection("users").findOne({ username });
+    if (!user) throw new Error("User not found");
+
+    const parsedLoginUser = UserLoginZodSchema.safeParse(user);
+    if (!parsedLoginUser.success) throw new Error("Invalid user");
+
+    return parsedLoginUser.data;
   } catch (error) {
     return null;
   }

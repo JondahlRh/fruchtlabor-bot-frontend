@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
+import AuthContext from "../context/auth";
 import { authenticate } from "../lib/actions";
 
 function LoginButton() {
@@ -23,18 +24,19 @@ function LoginButton() {
 
 export default function LoginForm() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { updateUser } = useContext(AuthContext);
 
   const submitHandler = async (_currentState: unknown, formData: FormData) => {
     const result = await authenticate(null, formData);
 
-    if (result.success) {
-      localStorage.setItem("authToken", result.token);
-      setErrorMessage(null);
-    }
-
     if (!result.success) {
       setErrorMessage(result.error);
+      return;
     }
+
+    localStorage.setItem("authToken", result.token);
+    setErrorMessage(null);
+    updateUser(result.user);
   };
 
   const [, dispatch] = useFormState(submitHandler, undefined);

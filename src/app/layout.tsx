@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import Navigation from "./components/Navigation";
+import { AuthContextProvider } from "./context/auth";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,8 +21,10 @@ export default function AppLayout(props: Props) {
   return (
     <html lang="de">
       <body className={classes}>
-        <Navigation />
-        <main className="mx-auto max-w-screen-xl p-4">{props.children}</main>
+        <AuthContextProvider>
+          <Navigation />
+          <main className="mx-auto max-w-screen-xl p-4">{props.children}</main>
+        </AuthContextProvider>
       </body>
     </html>
   );
