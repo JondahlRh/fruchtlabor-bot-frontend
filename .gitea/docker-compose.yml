@@ -8,6 +8,7 @@ services:
         - MONGODB_CONNECT=${MONGODB_CONNECT}
         - MONGODB_DBNAME=${MONGODB_DBNAME}
         - TEAMSPEAK_API_URL=${TEAMSPEAK_API_URL}
+        - JWT_SECRET=${JWT_SECRET}
     image: ${NAME}:latest
     container_name: ${NAME}
     restart: unless-stopped
@@ -15,5 +16,6 @@ services:
       - MONGODB_CONNECT=${MONGODB_CONNECT}
       - MONGODB_DBNAME=${MONGODB_DBNAME}
       - TEAMSPEAK_API_URL=${TEAMSPEAK_API_URL}
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - "${EXPOSED_HOST}:${EXPOSED_PORT}:${INTERNAL_PORT}"

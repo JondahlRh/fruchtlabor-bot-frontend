@@ -15,6 +15,7 @@ env:
   MONGODB_CONNECT: ${{ secrets.STAGE_MONGODB_CONNECT }}
   MONGODB_DBNAME: ${{ vars.STAGE_MONGODB_DBNAME }}
   TEAMSPEAK_API_URL: ${{ vars.STAGE_TEAMSPEAK_API_URL }}
+  JWT_SECRET: ${{ secrets.STAGE_JWT_SECRET }}
 
 jobs:
   deployment:
