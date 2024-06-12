@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/schemas/mongodb/user";
+import { UserWithId } from "@/schemas/mongodb/user";
 import { findOneUserById } from "@/services/mongoDbService/user";
 import { createContext, useEffect, useState } from "react";
 
@@ -14,8 +14,8 @@ const defaultContextValues = {
 
 type AuthContextType = {
   loading: boolean;
-  user: User | null;
-  updateUser: (user: User) => void;
+  user: UserWithId | null;
+  updateUser: (user: UserWithId) => void;
 };
 
 const AuthContext = createContext<AuthContextType>(defaultContextValues);
@@ -25,7 +25,7 @@ type AuthContextProviderProps = {
 };
 
 export const AuthContextProvider = (props: AuthContextProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserWithId | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,11 +51,9 @@ export const AuthContextProvider = (props: AuthContextProviderProps) => {
     setUserFromToken();
   }, []);
 
-  const updateUser = (user: User) => {
+  const updateUser = (user: UserWithId) => {
     setUser(user);
   };
-
-  console.log(loading, user);
 
   return (
     <AuthContext.Provider value={{ loading, user, updateUser }}>

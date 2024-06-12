@@ -30,8 +30,6 @@ export async function authenticate(_currentState: unknown, formData: FormData) {
 
     return { success: true as const, token, user };
   } catch (error) {
-    console.log(error);
-
     if (error) {
       return { success: false as const, error: "Login fehlgeschlagen" };
     }

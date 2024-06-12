@@ -17,6 +17,14 @@ export const UserZodSchema = z.object({
 });
 export type User = z.infer<typeof UserZodSchema>;
 
+export type UserWithId = {
+  _id: string;
+  username: string;
+  isOwner: boolean;
+  permissions: z.infer<typeof PermissionZodSchema>[];
+  roles: z.infer<typeof RoleZodSchema>[];
+};
+
 export const UnpopulatedUserZodSchema = z.object({
   _id: z.instanceof(ObjectId),
   username: z.string(),
