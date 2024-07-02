@@ -19,6 +19,8 @@ ENV NODE_ENV=production
 ARG MONGODB_CONNECT
 ARG MONGODB_DBNAME
 ARG TEAMSPEAK_API_URL
+ARG TEAMSPEAK_SERVER_API_TOKEN
+ARG JWT_SECRET
 
 COPY --from=dependency-stage /app/node_modules node_modules
 

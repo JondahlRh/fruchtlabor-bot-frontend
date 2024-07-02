@@ -10,6 +10,7 @@ type Props = {
 };
 
 export function InfoDescription(props: Props) {
+  const [infoDescription, setInfoDescription] = useState(props.infoDescription);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
   const toggleDetails = () => {
@@ -24,15 +25,17 @@ export function InfoDescription(props: Props) {
   return (
     <div className="rounded-lg bg-neutral-800 p-4 shadow-md">
       <InfoDescriptionHeader
-        name={props.infoDescription.name}
-        channelName={props.infoDescription.channel.name}
+        infoDescription={infoDescription}
         detailsOpen={detailsOpen}
         toggleDetails={toggleDetails}
       />
 
       <div className={detailsParentClasses}>
         <div className="overflow-hidden">
-          <InfoDescriptionDetails />
+          <InfoDescriptionDetails
+            infoDescription={infoDescription}
+            setInfoDescription={setInfoDescription}
+          />
         </div>
       </div>
     </div>

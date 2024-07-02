@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { z } from "zod";
 
-import { Channel, ChannelZodSchema } from "./channel";
+import { ChannelZodSchema } from "./channel";
 
 const LinkZodSchema = z.object({
   label: z.string(),
@@ -26,11 +26,16 @@ export const InfoDescriptionZodSchema = z.object({
 });
 export type InfoDescription = z.infer<typeof InfoDescriptionZodSchema>;
 
-type LinkWithId = z.infer<typeof LinkZodSchema> & {
+export type LinkWithId = {
   id: string;
+  label: string;
+  url: string;
 };
-type EntryWithId = z.infer<typeof EntryZodSchema> & {
+export type EntryWithId = {
   id: string;
+  type: "linkOnly" | "hereLabel" | "table";
+  title: string;
+  subtitle?: string;
   links: LinkWithId[];
 };
 type EntryArrayWithId = {
@@ -40,7 +45,7 @@ type EntryArrayWithId = {
 export type InfoDescriptionWithId = {
   _id: string;
   name: string;
-  channel: Channel;
+  channel: { _id: string; name: string };
   title: string;
   subtitle?: string;
   description?: string;

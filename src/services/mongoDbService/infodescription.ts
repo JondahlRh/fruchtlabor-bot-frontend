@@ -2,22 +2,26 @@
 
 import {
   InfoDescription,
+  InfoDescriptionWithId,
   InfoDescriptionZodSchema,
   UnpopulatedInfoDescription,
   UnpopulatedInfoDescriptionZodSchema,
 } from "@/schemas/mongodb/infodescription";
-import { Db } from "mongodb";
+import { Db, ObjectId } from "mongodb";
 import { z } from "zod";
 
 import init from ".";
 import nanoid from "../nano";
 import { checkAuth } from "./user";
 
-const mapInfoDescriptions = (infoDescriptions: InfoDescription[]) => {
-  return infoDescriptions.map((infoDescription) => ({
+const mapInfoDescription = (infoDescription: InfoDescription) => {
+  return {
     _id: infoDescription._id.toString(),
     name: infoDescription.name,
-    channel: infoDescription.channel,
+    channel: {
+      ...infoDescription.channel,
+      _id: infoDescription.channel._id.toString(),
+    },
     title: infoDescription.title,
     subtitle: infoDescription.subtitle,
     description: infoDescription.description,
@@ -35,7 +39,7 @@ const mapInfoDescriptions = (infoDescriptions: InfoDescription[]) => {
         })),
       })),
     })),
-  }));
+  };
 };
 
 const populateInfoDescriptions = async (
@@ -73,9 +77,44 @@ export const findArrayOfInfoDescriptions = async (token: string) => {
     const parsedInfoDescriptions = z
       .array(InfoDescriptionZodSchema)
       .safeParse(rawData);
-    if (!parsedInfoDescriptions.success) throw new Error("Invalid data");
 
-    return mapInfoDescriptions(parsedInfoDescriptions.data);
+    if (!parsedInfoDescriptions.success) throw new Error("Invalid data!!");
+
+    return parsedInfoDescriptions.data.map(mapInfoDescription);
+  } catch (error) {
+    return null;
+  }
+};
+
+export const saveInfoDescription = async (
+  infodescription: InfoDescriptionWithId
+) => {
+  const entrySections = infodescription.entrySections.map((outerEntry) =>
+    outerEntry.entries.map((innerEntry) => ({
+      title: innerEntry.title,
+      subtitle: innerEntry.subtitle,
+      type: innerEntry.type,
+      links: innerEntry.links.map((link) => ({
+        label: link.label,
+        url: link.url,
+      })),
+    }))
+  );
+
+  const data = {
+    name: infodescription.name,
+    channel: new ObjectId(infodescription.channel._id),
+    title: infodescription.title,
+    subtitle: infodescription.subtitle,
+    description: infodescription.description,
+    entrySections,
+  };
+
+  try {
+    const db = await init();
+    await db
+      .collection("infodescriptions")
+      .findOneAndReplace({ _id: new ObjectId(infodescription._id) }, data);
   } catch (error) {
     return null;
   }
